@@ -291,13 +291,13 @@ protocol OTPBackTextFieldDelegate {
 fileprivate class OTPBackTextField: UITextField {
     
     var OTPBackDelegate : OTPBackTextFieldDelegate?
-    weak var dpOTPView : DPOTPView!
+    weak var dpOTPView : DPOTPView?
     override var text: String? {
         didSet {
             if text?.isEmpty ?? true {
-                self.backgroundColor = dpOTPView.backGroundColorTextField
+                self.backgroundColor = dpOTPView?.backGroundColorTextField
             } else {
-                self.backgroundColor = dpOTPView.backGroundColorFilledTextField ?? dpOTPView.backGroundColorTextField
+                self.backgroundColor = dpOTPView?.backGroundColorFilledTextField ?? dpOTPView?.backGroundColorTextField
             }
         }
     }
@@ -331,6 +331,7 @@ fileprivate class OTPBackTextField: UITextField {
     }
     
     fileprivate func addSelectedBorderColor() {
+        guard let dpOTPView = dpOTPView else { return }
         if let selectedBorderColor = dpOTPView.selectedBorderColorTextField {
             if dpOTPView.isBottomLineTextField {
                 addBottomLine(selectedBorderColor, width: dpOTPView.selectedBorderWidthTextField)
@@ -349,6 +350,7 @@ fileprivate class OTPBackTextField: UITextField {
     }
     
     fileprivate func addUnselectedBorderColor() {
+        guard let dpOTPView = dpOTPView else { return }
         if let unselectedBorderColor = dpOTPView.borderColorTextField {
             if dpOTPView.isBottomLineTextField {
                 addBottomLine(unselectedBorderColor, width: dpOTPView.borderWidthTextField)
@@ -376,11 +378,11 @@ fileprivate class OTPBackTextField: UITextField {
     }
     
     override func textRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: dpOTPView.textEdgeInsets ?? UIEdgeInsets.zero)
+        return bounds.inset(by: dpOTPView?.textEdgeInsets ?? UIEdgeInsets.zero)
     }
     
     override func editingRect(forBounds bounds: CGRect) -> CGRect {
-        return bounds.inset(by: dpOTPView.editingTextEdgeInsets ?? UIEdgeInsets.zero)
+        return bounds.inset(by: dpOTPView?.editingTextEdgeInsets ?? UIEdgeInsets.zero)
     }
     
     fileprivate func removePreviouslyAddedLayer(name : String) {
